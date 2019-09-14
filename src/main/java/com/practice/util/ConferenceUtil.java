@@ -10,40 +10,9 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class ConferenceUtil {
-
-//    public static List<List<Conference>> getSessionDays(List<Conference> conferences) {
-//
-//        Integer morningTotalMinutes = ConferenceTakeTimesEnum.MORNING_SESSION.getValue();
-//        Integer afternoonTotalMinutes = ConferenceTakeTimesEnum.AFTER_MAX_SESSION.getValue();
-//        int order = 10;
-//
-//        List<List<Conference>> sessions = new ArrayList<>();
-//
-//        while(conferences.size() > 0) {
-//
-//            int totalMinutes;
-//            int numberOfConference = conferences.size();
-//            if ((order/10)%2 == 0){
-//                System.out.println("get afternoon schedule");
-//                totalMinutes = afternoonTotalMinutes;
-//            }else{
-//                System.out.println("get morning schedule");
-//                totalMinutes = morningTotalMinutes;
-//            }
-//
-//            int[][] table = init(numberOfConference, totalMinutes);
-//            List<Conference> session = new ArrayList<>();
-//            findScheduled(table, totalMinutes, numberOfConference, conferences);
-//            findTrack(table, numberOfConference, totalMinutes, conferences, order, session);
-//            removePlanedConference(conferences);
-//            sessions.add(session);
-//            order += 10;
-//        }
-//
-//        return sessions;
-//    }
 
     public Integer sumNotPlanedTakeTimes(List<Conference> conferences) {
 
@@ -69,12 +38,6 @@ public class ConferenceUtil {
         return 0;
     }
 
-    /**
-     * 根据权重和是否被安排过查找
-     * @param conferences
-     * @param priority
-     * @return
-     */
     private static Conference getConferenceByPriority(List<Conference> conferences, Integer priority) {
 
         for (Conference c : conferences) {
@@ -89,22 +52,6 @@ public class ConferenceUtil {
 
         return conferences.get(conferences.size()-1).getPriority();
     }
-
-//    public static void backpack1(List<Conference> conferences){
-//        int remainSpace = totalMinutes;
-//        int numberOfConference = conferences.size();
-//        int[][] table = init(numberOfConference, remainSpace);
-//        int order = 10;
-//        List<List<Conference>> sessions = new ArrayList<>();
-//
-//        while(conferences.size() > 0) {
-//            List<Conference> session = new ArrayList<>();
-//            findScheduled(table, totalMinutes, numberOfConference, conferences);
-//            findTrack(table, numberOfConference, totalMinutes, conferences, order, session);
-//            sessions.add(session);
-//            order += 10;
-//        }
-//    }
 
     /**
      * table
@@ -126,8 +73,7 @@ public class ConferenceUtil {
                     table[currentConference][currentMinutes] = table[currentConference-1][currentMinutes];
                 }
                 else {
-                    //不装价值大
-                    //前i-1个物品的最优解与第i个物品的价值之和更大
+                    //which is max value for scheduled or not schedule current conference
                     table[currentConference][currentMinutes] = Math.max(table[currentConference - 1][currentMinutes],
                             table[currentConference - 1][currentMinutes - takeTime] + value);
                 }
@@ -192,7 +138,7 @@ public class ConferenceUtil {
             startTime = LocalDateTime.of(now.getYear(), now.getMonth(), now.getDayOfMonth(), 13, 0,0);
         }
 
-        DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("hh:mm a");
+        DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("hh:mma", Locale.US);
         for (Conference conference : conferences){
             conference.setScheduleTime(startTime.format(dateFormat));
             int takeTime = conference.getTakeTime();

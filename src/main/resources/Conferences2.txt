@@ -1,0 +1,12 @@
+Writing Fast Tests Against Enterprise Rails 30min
+Overdoing it in Python 60min
+Lua for the Masses 60min
+Ruby Errors from Mismatched Gem Versions 60min
+Common Ruby Errors 60min
+Rails for Python Developers lightning
+Communicating Over Distance 60min
+Accounting-Driven Development 60min
+Woah 60min
+Sit Down and Write 60min
+Pair Programming vs Noise 60min
+Rails Magic 60min

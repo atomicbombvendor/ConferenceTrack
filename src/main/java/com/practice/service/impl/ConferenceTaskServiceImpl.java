@@ -23,7 +23,7 @@ public class ConferenceTaskServiceImpl implements ConferenceTackService {
         }
 
         setValue(conferences);
-        conferences.sort(new ConferenceComparator());
+//        conferences.sort(new ConferenceComparator());
         return conferences;
     }
 

@@ -71,11 +71,7 @@ public class ConferenceTaskServiceImpl implements ConferenceTackService {
      */
     private void setPriority(List<Conference> conferences){
 
-        List<Integer> takeTimeList = conferences.stream().map(Conference::getTakeTime).distinct()
-                .sorted(new IntegerComparator()).collect(Collectors.toList());
-
         for (Conference tmp : conferences) {
-//            tmp.setPriority(takeTimeList.indexOf(tmp.getTakeTime()) + 1);
             tmp.setPriority((tmp.getTakeTime()/5));
         }
     }

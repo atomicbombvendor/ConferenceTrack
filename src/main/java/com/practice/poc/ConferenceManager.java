@@ -45,8 +45,7 @@ public class ConferenceManager {
      * @return
      * @throws InvalidTalkException
      */
-    public List<String> getTalkListFromFile(String fileName) throws InvalidTalkException
-    {
+    public List<String> getTalkListFromFile(String fileName) throws InvalidTalkException {
         List<String> talkList = new ArrayList<String>();
         try{
           // Open the file.

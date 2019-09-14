@@ -13,21 +13,23 @@ public class App {
         this.service = new ConferenceTaskServiceImpl();
     }
 
+
+    public static void main(String[] args) {
+        App app = new App();
+        app.scheduleConference();
+    }
+
     private void scheduleConference() {
         try {
             String inputFile = App.class.getResource("/") + "Conferences.txt";
             inputFile = inputFile.replace("file:/", "");
             List<String> inputLines = FileUtil.readInputDataFile(inputFile);
             List<Conference> sequentialConferences = service.getSequentialConferences(inputLines);
-            List<List<Conference>> sessions = service.getSessionDays(sequentialConferences);
-            service.printSessionDay(sessions);
+            List<List<Conference>> sessionDays = service.getSessionDays(sequentialConferences);
+            service.printSessionDay(sessionDays);
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
     }
 
-    public static void main(String[] args) {
-        App app = new App();
-        app.scheduleConference();
-    }
 }

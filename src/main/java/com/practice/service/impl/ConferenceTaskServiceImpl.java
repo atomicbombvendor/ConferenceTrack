@@ -2,13 +2,14 @@ package com.practice.service.impl;
 
 
 import com.practice.common.ConferenceTakeTimesEnum;
-import com.practice.exception.InputIllegalException;
+import com.practice.comparator.ConferenceComparator;
 import com.practice.model.Conference;
 import com.practice.service.ConferenceTackService;
 import com.practice.util.ConferenceUtil;
 import com.practice.util.RegexUtil;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class ConferenceTaskServiceImpl implements ConferenceTackService {
@@ -22,6 +23,7 @@ public class ConferenceTaskServiceImpl implements ConferenceTackService {
         }
 
         setValue(conferences);
+        conferences.sort(new ConferenceComparator());
         return conferences;
     }
 
@@ -30,14 +32,13 @@ public class ConferenceTaskServiceImpl implements ConferenceTackService {
 
         List<Conference> conferences = sequentialConferences;
 
-        //todo 是否只需要两天的时间
-        if (ifAllTakeTimeIsMoreTwoDays(conferences)) {
-            throw new InputIllegalException("Total minutes of conference is more than tow days");
-        }
+//        if (ifAllTakeTimeIsMoreTwoDays(conferences)) {
+//            throw new InputIllegalException("Total minutes of conference is more than tow days");
+//        }
 
         int order = 10;
 
-        List<List<Conference>> sessions = new ArrayList<>();
+        List<List<Conference>> sessions = new LinkedList<>();
 
         while (conferences.size() > 0) {
 
@@ -45,7 +46,7 @@ public class ConferenceTaskServiceImpl implements ConferenceTackService {
             InputParameter input = new InputParameter(order);
             int[][] table = ConferenceUtil.init(numberOfConference, input.getTotalMinutes());
 
-            List<Conference> session = new ArrayList<>();
+            List<Conference> session = new LinkedList<>();
             ConferenceUtil.findScheduled(table, input.getTotalMinutes(), numberOfConference, conferences);
             ConferenceUtil.findTrack(table, numberOfConference, input.getTotalMinutes(), conferences, order, session);
             ConferenceUtil.removePlanedConference(conferences);
@@ -59,11 +60,14 @@ public class ConferenceTaskServiceImpl implements ConferenceTackService {
     @Override
     public void printSessionDay(List<List<Conference>> sessionDays) {
 
-        for (int trackCount=0; trackCount< (sessionDays.size()%2); trackCount++){
-            System.out.println("Track " + (trackCount+1) + ":");
+        int trackCount = 1;
+        for (int i=0; i < sessionDays.size(); i+=2){
+            System.out.println("Track " + trackCount + ":");
 
-            printSession(trackCount, sessionDays);
-            printSession((trackCount + 1), sessionDays);
+            printSession(i, sessionDays);
+            printSession((i + 1), sessionDays);
+            System.out.println();
+            trackCount++;
         }
     }
 
@@ -99,8 +103,8 @@ public class ConferenceTaskServiceImpl implements ConferenceTackService {
 
     private void printSession(int trackCount, List<List<Conference>> sessionDays){
 
-        if ((trackCount + 1) < sessionDays.size()) {
-            for (Conference s : sessionDays.get(trackCount + 1)) {
+        if (trackCount < sessionDays.size()) {
+            for (Conference s : sessionDays.get(trackCount)) {
                 System.out.println(s.printTrack());
             }
         }

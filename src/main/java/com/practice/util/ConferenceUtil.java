@@ -1,14 +1,10 @@
 package com.practice.util;
 
-import com.practice.common.ConferenceTakeTimesEnum;
 import com.practice.model.Conference;
 
-import java.sql.Time;
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -31,7 +27,7 @@ public class ConferenceUtil {
 
         for (Conference c : conferences) {
             if (!c.getIfPlaned()) {
-                return c.getPriority();
+                return c.getValue();
             }
         }
 
@@ -41,7 +37,7 @@ public class ConferenceUtil {
     private static Conference getConferenceByPriority(List<Conference> conferences, Integer priority) {
 
         for (Conference c : conferences) {
-            if (!c.getIfPlaned() && c.getPriority().equals(priority)) {
+            if (!c.getIfPlaned() && c.getValue().equals(priority)) {
                 return c;
             }
         }
@@ -50,7 +46,7 @@ public class ConferenceUtil {
 
     private static Integer getMaxPriority(List<Conference> conferences){
 
-        return conferences.get(conferences.size()-1).getPriority();
+        return conferences.get(conferences.size()-1).getValue();
     }
 
     /**
@@ -66,7 +62,7 @@ public class ConferenceUtil {
         for(currentConference = 1; currentConference <= totalNumber; currentConference++) {
 
             int takeTime = conferences.get(currentConference-1).getTakeTime();
-            int value = conferences.get(currentConference-1).getPriority();
+            int value = conferences.get(currentConference-1).getValue();
             for(currentMinutes=1; currentMinutes <= totalMinutes; currentMinutes++) {
                 // current capacity is less than current conference take time
                 if(currentMinutes < takeTime){
@@ -88,7 +84,7 @@ public class ConferenceUtil {
 
             int conferenceIndex = currentIndex - 1;
             int weight = conferences.get(conferenceIndex).getTakeTime();
-            int value = conferences.get(conferenceIndex).getPriority();
+            int value = conferences.get(conferenceIndex).getValue();
 
             if(table[currentIndex][currentMinutes] == table[currentIndex-1][currentMinutes]) {
 

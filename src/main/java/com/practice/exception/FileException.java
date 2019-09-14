@@ -1,7 +1,7 @@
 package com.practice.exception;
 
 /**
- * 关于文件的异常
+ * about file exception
  */
 public class FileException extends RuntimeException {
 

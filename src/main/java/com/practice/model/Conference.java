@@ -11,7 +11,7 @@ public class Conference {
     /**
      * Conference will be order by priority asc.
      */
-    private Integer priority;
+    private Integer value;
 
     /**
      * If has been plan
@@ -46,8 +46,8 @@ public class Conference {
         this.takeTime = takeTime;
     }
 
-    public Integer getPriority() {
-        return priority;
+    public Integer getValue() {
+        return value;
     }
 
     public Boolean getIfPlaned() {
@@ -58,8 +58,8 @@ public class Conference {
         this.ifPlaned = ifPlaned;
     }
 
-    public void setPriority(Integer priority) {
-        this.priority = priority;
+    public void setValue(Integer value) {
+        this.value = value;
     }
 
     public String getScheduleTime() {
@@ -92,7 +92,7 @@ public class Conference {
                 "name='" + name + '\'' +
                 ", title='" + title + '\'' +
                 ", takeTime=" + takeTime +
-                ", priority=" + priority +
+                ", priority=" + value +
                 ", ifPlaned=" + ifPlaned +
                 ", order=" + order +
                 ", scheduleTime='" + scheduleTime + '\'' +

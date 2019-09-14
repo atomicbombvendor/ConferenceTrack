@@ -21,6 +21,6 @@ public class ConferenceComparator implements Comparator<Conference> {
             return 0;
         }
 
-        return -1 * (c1.getPriority() - c2.getPriority());
+        return -1 * (c1.getValue() - c2.getValue());
     }
 }

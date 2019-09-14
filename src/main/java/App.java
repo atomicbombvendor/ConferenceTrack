@@ -20,22 +20,9 @@ public class App {
             List<String> inputLines = FileUtil.readInputDataFile(inputFile);
             List<Conference> sequentialConferences = service.getSequentialConferences(inputLines);
             List<List<Conference>> sessions = service.getSessionDays(sequentialConferences);
-            printTracks(sessions);
+            service.printSessionDay(sessions);
         } catch (Exception e) {
             System.out.println(e.getMessage());
-        }
-    }
-
-    private void printTracks(List<List<Conference>> sessions){
-
-        int trackCount = 1;
-        for (List<Conference> ss : sessions){
-            System.out.println("Track " + trackCount + ":");
-            for (Conference s : ss){
-                System.out.println(s.printTrack());
-            }
-            System.out.println();
-            trackCount++;
         }
     }
 

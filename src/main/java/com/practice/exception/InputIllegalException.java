@@ -1,7 +1,7 @@
 package com.practice.exception;
 
 /**
- * 输入数据不合法
+ * illegal file content
  */
 public class InputIllegalException extends RuntimeException {
 

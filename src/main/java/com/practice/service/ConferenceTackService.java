@@ -19,4 +19,6 @@ public interface ConferenceTackService {
      * @return
      */
     List<List<Conference>> getSessionDays(List<Conference> sequentialConferences);
+
+    void printSessionDay(List<List<Conference>> sessionDays);
 }

@@ -23,8 +23,7 @@ public class ConferenceManager {
      * @param fileName
      * @throws InvalidTalkException
      */
-    public List<List<Talk>> scheduleConference(String fileName) throws Exception
-    {
+    public List<List<Talk>> scheduleConference(String fileName) throws Exception {
         List<String> talkList = getTalkListFromFile(fileName);
         return scheduleConference(talkList);
     }
@@ -137,15 +136,19 @@ public class ConferenceManager {
     {
         // Find the total possible days.
         int perDayMinTime = 6 * 60;
+        // 所有任务总共分钟数
         int totalTalksTime = getTotalTalksTime(talksList);
+        // 所有任务的天数
         int totalPossibleDays = totalTalksTime/perDayMinTime;
         
         // Sort the talkList.
         List<Talk> talksListForOperation = new ArrayList<Talk>(); 
         talksListForOperation.addAll(talksList);
+        // 根据时长排序
         Collections.sort(talksListForOperation);
         
         // Find possible combinations for the morning session.
+        // 早上
         List<List<Talk>> combForMornSessions = findPossibleCombSession(talksListForOperation, totalPossibleDays, true);
         
         // Remove all the scheduled talks for morning session, from the operationList.
@@ -154,6 +157,7 @@ public class ConferenceManager {
         }
         
         // Find possible combinations for the evening session.
+        // 晚上
         List<List<Talk>> combForEveSessions = findPossibleCombSession(talksListForOperation, totalPossibleDays, false);
         
         // Remove all the scheduled talks for evening session, from the operationList.
@@ -166,30 +170,36 @@ public class ConferenceManager {
         if(!talksListForOperation.isEmpty()) {
             List<Talk> scheduledTalkList = new ArrayList<Talk>();
             for(List<Talk> talkList : combForEveSessions) {
+                // 得到晚上任务安排总时长
                 int totalTime = getTotalTalksTime(talkList);
                 
                 for(Talk talk : talksListForOperation) {
                     int talkTime = talk.getTimeDuration();
-                    
+
+                    // 从剩下的没有安排的任务，安排到晚上
                     if(talkTime + totalTime <= maxSessionTimeLimit) {
                         talkList.add(talk);
                         talk.setScheduled(true);
+                        // 记录安排的任务
                         scheduledTalkList.add(talk);
                     }
                 }
-                
+
+                // 删除所有被安排的
                 talksListForOperation.removeAll(scheduledTalkList);
                 if(talksListForOperation.isEmpty())
                     break;
             }
         }
-        
+
+        // 安排到最后，发现还有剩余，就不安排了，报错
         // If operation list is still not empty, its mean the conference can not be scheduled with the provided data.
         if(!talksListForOperation.isEmpty())
         {
             throw new Exception("Unable to schedule all task for conferencing.");
         }
-        
+
+        // 按照顺序打印时间
         // Schedule the day event from morning session and evening session.
         return getScheduledTalksList(combForMornSessions, combForEveSessions);
     }
@@ -198,17 +208,18 @@ public class ConferenceManager {
      * Find possible combination for the session.
      * If morning session then each session must have total time 3 hr.
      * if evening session then each session must have total time greater then 3 hr.
+     * 暴力的方式得到组合
      * @param talksListForOperation
      * @param totalPossibleDays
      * @param morningSession
      * @return
      */
-    private List<List<Talk>> findPossibleCombSession(List<Talk> talksListForOperation, int totalPossibleDays, boolean morningSession)
-    {
+    private List<List<Talk>> findPossibleCombSession(List<Talk> talksListForOperation, int totalPossibleDays, boolean morningSession) {
         int minSessionTimeLimit = 180;
         int maxSessionTimeLimit = 240;
-        
+
         if(morningSession)
+            // 如果是早上，最大时间为180分钟
             maxSessionTimeLimit = minSessionTimeLimit;
         
         int talkListSize = talksListForOperation.size();
@@ -221,11 +232,14 @@ public class ConferenceManager {
             int startPoint = count;
             int totalTime = 0;
             List<Talk> possibleCombinationList = new ArrayList<Talk>();
-            
+
+            // while循环遍历startPoint，startPoint是taskList的size
+            // 从startPoint开始查找满足的条件，中间跳过已经被添加的，一个一个的顺序查找。
             // Loop to get possible combination.
             while(startPoint != talkListSize) {
                 int currentCount = startPoint;
                 startPoint++;
+                //
                 Talk currentTalk = talksListForOperation.get(currentCount);
                 if(currentTalk.isScheduled())
                     continue;
@@ -241,6 +255,8 @@ public class ConferenceManager {
                 totalTime += talkTime;
                 
                 // If total time is completed for this session than break this loop.
+                // 如果是早上的，应该在总时间达到早上总时长时，跳出。不可能出现大于总时长时情况
+                // 如果不是早上，在总时长大于等于最小的总时长时跳出
                 if(morningSession) {
                     if(totalTime == maxSessionTimeLimit)
                         break;
@@ -249,7 +265,8 @@ public class ConferenceManager {
             }
             
             // Valid session time for morning session is equal to maxSessionTimeLimit.
-            // Valid session time for evening session is less than or eqaul to maxSessionTimeLimit and greater than or equal to minSessionTimeLimit.
+            // Valid session time for evening session is less than or equal to maxSessionTimeLimit and greater than or equal to minSessionTimeLimit.
+            // 验证范围：早上时，总时长等于早上总时长；晚上时，总时长小于最大的，大于等于最小的
             boolean validSession = false;
             if(morningSession)
                 validSession = (totalTime == maxSessionTimeLimit);
@@ -263,6 +280,7 @@ public class ConferenceManager {
                     talk.setScheduled(true);
                 }
                 possibleCombinationCount++;
+                // 等于可能的天数时，跳出
                 if(possibleCombinationCount == totalPossibleDays)
                     break;
             }

@@ -23,7 +23,7 @@ public class ConferenceUtil {
         return takeTimes;
     }
 
-    private static Integer getPriority(List<Conference> conferences) {
+    public static Integer getPriority(List<Conference> conferences) {
 
         for (Conference c : conferences) {
             if (!c.getIfPlaned()) {
@@ -34,7 +34,7 @@ public class ConferenceUtil {
         return 0;
     }
 
-    private static Conference getConferenceByPriority(List<Conference> conferences, Integer priority) {
+    public static Conference getConferenceByPriority(List<Conference> conferences, Integer priority) {
 
         for (Conference c : conferences) {
             if (!c.getIfPlaned() && c.getValue().equals(priority)) {
@@ -44,13 +44,13 @@ public class ConferenceUtil {
         return null;
     }
 
-    private static Integer getMaxPriority(List<Conference> conferences){
+    public static Integer getMaxPriority(List<Conference> conferences){
 
         return conferences.get(conferences.size()-1).getValue();
     }
 
     /**
-     * table
+     * 01 backpack to find session
      * @param table
      * @param totalMinutes
      * @param totalNumber
@@ -78,6 +78,15 @@ public class ConferenceUtil {
     }
 
 
+    /**
+     * Track conference schedule
+     * @param table
+     * @param currentIndex
+     * @param currentMinutes
+     * @param conferences
+     * @param order
+     * @param session
+     */
     public static void findTrack(int[][] table, int currentIndex, int currentMinutes, List<Conference> conferences, int order, List<Conference> session) {
 
         if(currentIndex >= 1) {

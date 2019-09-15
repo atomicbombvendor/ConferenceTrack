@@ -1,5 +1,9 @@
 ## Conference Tack Management
 
+### 运行
+1. 程序入口：App.class Main方法
+2. 数据文件：resources目录下txt文件
+
 ### 解题思路
 
 1. 根据题目描述，设想使用**01背包**算法可以解决问题。

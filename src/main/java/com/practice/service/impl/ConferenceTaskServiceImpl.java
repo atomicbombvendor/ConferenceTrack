@@ -22,7 +22,6 @@ public class ConferenceTaskServiceImpl implements ConferenceTackService {
         }
 
         setValue(conferences);
-//        conferences.sort(new ConferenceComparator());
         return conferences;
     }
 
@@ -30,10 +29,6 @@ public class ConferenceTaskServiceImpl implements ConferenceTackService {
     public List<List<Conference>> getSessionDays(List<Conference> sequentialConferences) {
 
         List<Conference> conferences = sequentialConferences;
-
-//        if (ifAllTakeTimeIsMoreTwoDays(conferences)) {
-//            throw new InputIllegalException("Total minutes of conference is more than tow days");
-//        }
 
         int order = 10;
 
@@ -84,7 +79,7 @@ public class ConferenceTaskServiceImpl implements ConferenceTackService {
     }
 
     /**
-     * only two day.
+     * only two days.
      *
      * @param conferences
      * @return

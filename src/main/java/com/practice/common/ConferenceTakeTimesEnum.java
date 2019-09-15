@@ -4,8 +4,8 @@ public enum ConferenceTakeTimesEnum {
 
     LIGHTNING("lightning", 5),
     MORNING_SESSION("morning", 3*60),
-    AFTER_MAX_SESSION("after_max", 4*60),
-    AFTER_MIN_SESSION("after_min", 3*60),
+    AFTER_MAX_SESSION("afternoon_max", 4*60),
+    AFTER_MIN_SESSION("afternoon_min", 3*60),
     ALL_DAY_MAX("all_max", (3*60) + (4*60)),
     ALL_DAY_MIN("all_min", (3*60) + (3*60));
 

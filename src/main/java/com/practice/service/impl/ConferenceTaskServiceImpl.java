@@ -2,7 +2,6 @@ package com.practice.service.impl;
 
 
 import com.practice.common.ConferenceTakeTimesEnum;
-import com.practice.comparator.ConferenceComparator;
 import com.practice.model.Conference;
 import com.practice.service.ConferenceTackService;
 import com.practice.util.ConferenceUtil;
@@ -43,12 +42,11 @@ public class ConferenceTaskServiceImpl implements ConferenceTackService {
         while (conferences.size() > 0) {
 
             int numberOfConference = conferences.size();
-            InputParameter input = new InputParameter(order);
-            int[][] table = ConferenceUtil.init(numberOfConference, input.getTotalMinutes());
+            InputParameter input = new InputParameter(order, numberOfConference);
 
             List<Conference> session = new LinkedList<>();
-            ConferenceUtil.findScheduled(table, input.getTotalMinutes(), numberOfConference, conferences);
-            ConferenceUtil.findTrack(table, numberOfConference, input.getTotalMinutes(), conferences, order, session);
+            ConferenceUtil.findScheduled(input.getTable(), input.getTotalMinutes(), numberOfConference, conferences);
+            ConferenceUtil.findTrack(input.getTable(), numberOfConference, input.getTotalMinutes(), conferences, order, session);
             ConferenceUtil.removePlanedConference(conferences);
             ConferenceUtil.setScheduleTime(session, input.isIfMorning());
             sessions.add(session);
@@ -118,7 +116,9 @@ public class ConferenceTaskServiceImpl implements ConferenceTackService {
 
         private int order;
 
-        InputParameter(int order) {
+        private int[][] table;
+
+        InputParameter(int order, int numberOfConference) {
             Integer morningTotalMinutes = ConferenceTakeTimesEnum.MORNING_SESSION.getValue();
             Integer afternoonTotalMinutes = ConferenceTakeTimesEnum.AFTER_MAX_SESSION.getValue();
 
@@ -129,6 +129,8 @@ public class ConferenceTaskServiceImpl implements ConferenceTackService {
                 this.totalMinutes = morningTotalMinutes;
                 this.ifMorning = true;
             }
+
+            this.table = initTable(numberOfConference, totalMinutes);
         }
 
         int getTotalMinutes() {
@@ -151,8 +153,30 @@ public class ConferenceTaskServiceImpl implements ConferenceTackService {
             return order;
         }
 
+        public int[][] getTable() {
+            return table;
+        }
+
+        public void setTable(int[][] table) {
+            this.table = table;
+        }
+
         public void setOrder(int order) {
             this.order = order;
+        }
+
+
+        private int[][] initTable(Integer conferenceSize, Integer space){
+
+            int[][] table = new int[conferenceSize + 1][space + 1];
+            for (int i=0; i <= table.length-1; i++){
+                table[i][0] = 0;
+            }
+
+            for (int i=0; i <= table[0].length-1; i++){
+                table[0][i] = 0;
+            }
+            return table;
         }
     }
 }

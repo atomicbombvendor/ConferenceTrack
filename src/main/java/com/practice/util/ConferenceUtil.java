@@ -10,45 +10,6 @@ import java.util.Locale;
 
 public class ConferenceUtil {
 
-    public Integer sumNotPlanedTakeTimes(List<Conference> conferences) {
-
-        Integer takeTimes = 0;
-
-        for (Conference c : conferences) {
-            if (!c.getIfPlaned()) {
-                takeTimes = c.getTakeTime();
-            }
-        }
-
-        return takeTimes;
-    }
-
-    public static Integer getPriority(List<Conference> conferences) {
-
-        for (Conference c : conferences) {
-            if (!c.getIfPlaned()) {
-                return c.getValue();
-            }
-        }
-
-        return 0;
-    }
-
-    public static Conference getConferenceByPriority(List<Conference> conferences, Integer priority) {
-
-        for (Conference c : conferences) {
-            if (!c.getIfPlaned() && c.getValue().equals(priority)) {
-                return c;
-            }
-        }
-        return null;
-    }
-
-    public static Integer getMaxPriority(List<Conference> conferences){
-
-        return conferences.get(conferences.size()-1).getValue();
-    }
-
     /**
      * 01 backpack to find session
      * @param table
@@ -114,19 +75,6 @@ public class ConferenceUtil {
         }
     }
 
-    public static int[][] init(Integer conferenceSize, Integer space){
-
-        int[][] table = new int[conferenceSize + 1][space + 1];
-        for (int i=0; i <= table.length-1; i++){
-            table[i][0] = 0;
-        }
-
-        for (int i=0; i <= table[0].length-1; i++){
-            table[0][i] = 0;
-        }
-        return table;
-    }
-
     public static void removePlanedConference(List<Conference> conferences){
 
         conferences.removeIf(Conference::getIfPlaned);
@@ -160,5 +108,44 @@ public class ConferenceUtil {
         }
 
         conferences.add(conference);
+    }
+
+    public Integer sumNotPlanedTakeTimes(List<Conference> conferences) {
+
+        Integer takeTimes = 0;
+
+        for (Conference c : conferences) {
+            if (!c.getIfPlaned()) {
+                takeTimes = c.getTakeTime();
+            }
+        }
+
+        return takeTimes;
+    }
+
+    public static Integer getPriority(List<Conference> conferences) {
+
+        for (Conference c : conferences) {
+            if (!c.getIfPlaned()) {
+                return c.getValue();
+            }
+        }
+
+        return 0;
+    }
+
+    public static Conference getConferenceByPriority(List<Conference> conferences, Integer priority) {
+
+        for (Conference c : conferences) {
+            if (!c.getIfPlaned() && c.getValue().equals(priority)) {
+                return c;
+            }
+        }
+        return null;
+    }
+
+    public static Integer getMaxPriority(List<Conference> conferences){
+
+        return conferences.get(conferences.size()-1).getValue();
     }
 }

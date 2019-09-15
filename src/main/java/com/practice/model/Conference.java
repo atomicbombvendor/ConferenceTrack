@@ -104,9 +104,9 @@ public class Conference {
         if (takeTime == 0){
             format = "%s %s";
         }else{
-            format = "%s %s %d minutes";
+            format = "%s %s";
         }
 
-        return String.format(format, this.getScheduleTime(), this.getTitle(), this.getTakeTime());
+        return String.format(format, this.getScheduleTime(), this.getName());
     }
 }

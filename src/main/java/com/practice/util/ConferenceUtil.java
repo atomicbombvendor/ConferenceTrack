@@ -82,12 +82,10 @@ public class ConferenceUtil {
 
     public static void setScheduleTime(List<Conference> conferences, boolean ifMorning){
         LocalDateTime startTime;
-
+        LocalDateTime now = LocalDateTime.now(ZoneId.of("UTC"));
         if (ifMorning){
-            LocalDateTime now = LocalDateTime.now(ZoneId.of("UTC"));
             startTime = LocalDateTime.of(now.getYear(), now.getMonth(), now.getDayOfMonth(), 9, 0,0);
         }else{
-            LocalDateTime now = LocalDateTime.now();
             startTime = LocalDateTime.of(now.getYear(), now.getMonth(), now.getDayOfMonth(), 13, 0,0);
         }
 
@@ -101,12 +99,19 @@ public class ConferenceUtil {
         Conference conference;
         if (ifMorning){
             conference = new Conference("Lunch", "Lunch", 0);
-            conference.setScheduleTime(startTime.format(dateFormat));
+
+            if (startTime.getHour() < 12){
+                startTime = LocalDateTime.of(now.getYear(), now.getMonth(), now.getDayOfMonth(), 12, 0,0);
+            }
         }else{
             conference = new Conference("Networking Event", "Networking Event", 0);
-            conference.setScheduleTime(startTime.format(dateFormat));
-        }
 
+            // after session end before 16:00
+            if (startTime.getHour() < 16){
+                startTime = LocalDateTime.of(now.getYear(), now.getMonth(), now.getDayOfMonth(), 16, 0,0);
+            }
+        }
+        conference.setScheduleTime(startTime.format(dateFormat));
         conferences.add(conference);
     }
 

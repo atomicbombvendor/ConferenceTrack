@@ -17,7 +17,7 @@ public class App {
     private void scheduleConference() {
         try {
             String fileName = "Conferences.txt";
-            service.TrackSession(fileName);
+            service.trackSession(fileName);
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }

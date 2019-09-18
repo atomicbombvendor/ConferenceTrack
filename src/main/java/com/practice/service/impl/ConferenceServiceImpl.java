@@ -10,7 +10,6 @@ import java.util.List;
 
 public class ConferenceServiceImpl implements ConferenceService {
 
-
     private TackService trackService;
 
     private InputService inputService;
@@ -24,7 +23,7 @@ public class ConferenceServiceImpl implements ConferenceService {
     }
 
     @Override
-    public void TrackSession(String fileName) {
+    public void trackSession(String fileName) {
 
         List<Conference> sequentialConferences = inputService.getSequentialConferences(fileName);
         List<List<Conference>> sessionDays = trackService.getSessionDays(sequentialConferences);

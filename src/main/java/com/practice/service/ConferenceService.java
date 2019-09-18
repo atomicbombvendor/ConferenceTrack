@@ -1,6 +1,13 @@
 package com.practice.service;
 
+/**
+ * @author haoyue
+ */
 public interface ConferenceService {
 
-    public void TrackSession(String fileName);
+    /**
+     * all process of conference
+     * @param fileName
+     */
+    void trackSession(String fileName);
 }

@@ -7,6 +7,9 @@ import com.practice.model.Conference;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * @author haoyue
+ */
 public class RegexUtil {
 
     /**

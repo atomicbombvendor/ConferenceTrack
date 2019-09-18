@@ -2,6 +2,7 @@ package com.practice.exception;
 
 /**
  * illegal file content
+ * @author haoyue
  */
 public class InputIllegalException extends RuntimeException {
 

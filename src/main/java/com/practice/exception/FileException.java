@@ -2,6 +2,7 @@ package com.practice.exception;
 
 /**
  * about file exception
+ * @author haoyue
  */
 public class FileException extends RuntimeException {
 

@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-public class TaskServiceImpl implements TackService {
+public class TrackServiceImpl implements TackService {
 
     @Override
     public List<List<Conference>> getSessionDays(List<Conference> sequentialConferences) {

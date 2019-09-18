@@ -11,7 +11,8 @@ public class PrintServiceImpl implements PrintService {
     public void printSessionDay(List<List<Conference>> sessionDays) {
 
         int trackCount = 1;
-        for (int i=0; i < sessionDays.size(); i+=2){
+        int oneDaySessionCount = 2;
+        for (int i=0; i < sessionDays.size(); i += oneDaySessionCount){
             System.out.println("Track " + trackCount + ":");
 
             printSession(i, sessionDays);

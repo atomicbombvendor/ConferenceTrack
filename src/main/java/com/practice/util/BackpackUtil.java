@@ -8,7 +8,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Locale;
 
-public class ConferenceUtil {
+public class BackpackUtil {
 
     /**
      * 01 backpack to find session
@@ -83,10 +83,16 @@ public class ConferenceUtil {
     public static void setScheduleTime(List<Conference> conferences, boolean ifMorning){
         LocalDateTime startTime;
         LocalDateTime now = LocalDateTime.now(ZoneId.of("UTC"));
+        int lunchHour = 12;
+        int networkHour = 16;
+        int morningStart = 9;
+        int afternoonStart = 13;
+        int minuteStart = 0, secondStart = 0;
+
         if (ifMorning){
-            startTime = LocalDateTime.of(now.getYear(), now.getMonth(), now.getDayOfMonth(), 9, 0,0);
+            startTime = LocalDateTime.of(now.getYear(), now.getMonth(), now.getDayOfMonth(), morningStart, minuteStart, secondStart);
         }else{
-            startTime = LocalDateTime.of(now.getYear(), now.getMonth(), now.getDayOfMonth(), 13, 0,0);
+            startTime = LocalDateTime.of(now.getYear(), now.getMonth(), now.getDayOfMonth(), afternoonStart, minuteStart, secondStart);
         }
 
         DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("hh:mma", Locale.US);
@@ -100,57 +106,18 @@ public class ConferenceUtil {
         if (ifMorning){
             conference = new Conference("Lunch", "Lunch", 0);
 
-            if (startTime.getHour() < 12){
-                startTime = LocalDateTime.of(now.getYear(), now.getMonth(), now.getDayOfMonth(), 12, 0,0);
+            if (startTime.getHour() < lunchHour){
+                startTime = LocalDateTime.of(now.getYear(), now.getMonth(), now.getDayOfMonth(), lunchHour, minuteStart, secondStart);
             }
         }else{
             conference = new Conference("Networking Event", "Networking Event", 0);
 
             // after session end before 16:00
-            if (startTime.getHour() < 16){
-                startTime = LocalDateTime.of(now.getYear(), now.getMonth(), now.getDayOfMonth(), 16, 0,0);
+            if (startTime.getHour() < networkHour){
+                startTime = LocalDateTime.of(now.getYear(), now.getMonth(), now.getDayOfMonth(), networkHour, minuteStart, secondStart);
             }
         }
         conference.setScheduleTime(startTime.format(dateFormat));
         conferences.add(conference);
-    }
-
-    public Integer sumNotPlanedTakeTimes(List<Conference> conferences) {
-
-        Integer takeTimes = 0;
-
-        for (Conference c : conferences) {
-            if (!c.getIfPlaned()) {
-                takeTimes = c.getTakeTime();
-            }
-        }
-
-        return takeTimes;
-    }
-
-    public static Integer getPriority(List<Conference> conferences) {
-
-        for (Conference c : conferences) {
-            if (!c.getIfPlaned()) {
-                return c.getValue();
-            }
-        }
-
-        return 0;
-    }
-
-    public static Conference getConferenceByPriority(List<Conference> conferences, Integer priority) {
-
-        for (Conference c : conferences) {
-            if (!c.getIfPlaned() && c.getValue().equals(priority)) {
-                return c;
-            }
-        }
-        return null;
-    }
-
-    public static Integer getMaxPriority(List<Conference> conferences){
-
-        return conferences.get(conferences.size()-1).getValue();
     }
 }

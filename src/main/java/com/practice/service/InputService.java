@@ -8,9 +8,8 @@ public interface InputService {
 
     /**
      * process input line, transform to entity and get sequential conferences
-     * @param inputLines input data
      * @return
      */
-    List<Conference> getSequentialConferences(List<String> inputLines);
+    List<Conference> getSequentialConferences(String fileName);
 
 }

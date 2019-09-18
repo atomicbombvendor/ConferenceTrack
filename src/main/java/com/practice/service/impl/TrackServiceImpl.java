@@ -4,36 +4,36 @@ package com.practice.service.impl;
 import com.practice.common.ConferenceTakeTimesEnum;
 import com.practice.model.Conference;
 import com.practice.service.TackService;
-import com.practice.util.ConferenceUtil;
-import com.practice.util.RegexUtil;
+import com.practice.util.BackpackUtil;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
 public class TrackServiceImpl implements TackService {
+
 
     @Override
     public List<List<Conference>> getSessionDays(List<Conference> sequentialConferences) {
 
         List<Conference> conferences = sequentialConferences;
 
-        int order = 10;
+        int orderStart = 10;
+        int orderInterval = 10;
 
         List<List<Conference>> sessions = new LinkedList<>();
 
         while (conferences.size() > 0) {
 
             int numberOfConference = conferences.size();
-            InputParameter input = new InputParameter(order, numberOfConference);
+            InputParameter input = new InputParameter(orderStart, numberOfConference);
 
             List<Conference> session = new LinkedList<>();
-            ConferenceUtil.findScheduled(input.getTable(), input.getTotalMinutes(), numberOfConference, conferences);
-            ConferenceUtil.findTrack(input.getTable(), numberOfConference, input.getTotalMinutes(), conferences, order, session);
-            ConferenceUtil.removePlanedConference(conferences);
-            ConferenceUtil.setScheduleTime(session, input.isIfMorning());
+            BackpackUtil.findScheduled(input.getTable(), input.getTotalMinutes(), numberOfConference, conferences);
+            BackpackUtil.findTrack(input.getTable(), numberOfConference, input.getTotalMinutes(), conferences, orderStart, session);
+            BackpackUtil.removePlanedConference(conferences);
+            BackpackUtil.setScheduleTime(session, input.isIfMorning());
             sessions.add(session);
-            order += 10;
+            orderStart += orderInterval;
         }
         return sessions;
     }
@@ -48,11 +48,13 @@ public class TrackServiceImpl implements TackService {
 
         private int[][] table;
 
+        int orderInterval = 10;
+
         InputParameter(int order, int numberOfConference) {
             Integer morningTotalMinutes = ConferenceTakeTimesEnum.MORNING_SESSION.getValue();
             Integer afternoonTotalMinutes = ConferenceTakeTimesEnum.AFTER_MAX_SESSION.getValue();
 
-            if ((order / 10) % 2 == 0) {
+            if ((order / orderInterval) % 2 == 0) {
                 this.totalMinutes = afternoonTotalMinutes;
                 this.ifMorning = false;
             } else {

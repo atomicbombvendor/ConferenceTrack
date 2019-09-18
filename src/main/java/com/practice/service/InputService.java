@@ -4,7 +4,7 @@ import com.practice.model.Conference;
 
 import java.util.List;
 
-public interface ConferenceTackService {
+public interface InputService {
 
     /**
      * process input line, transform to entity and get sequential conferences
@@ -13,12 +13,4 @@ public interface ConferenceTackService {
      */
     List<Conference> getSequentialConferences(List<String> inputLines);
 
-    /**
-     * get plan of conference every day
-     * @param sequentialConferences conferences
-     * @return
-     */
-    List<List<Conference>> getSessionDays(List<Conference> sequentialConferences);
-
-    void printSessionDay(List<List<Conference>> sessionDays);
 }

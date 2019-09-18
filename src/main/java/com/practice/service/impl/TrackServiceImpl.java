@@ -3,7 +3,7 @@ package com.practice.service.impl;
 
 import com.practice.common.ConferenceTakeTimesEnum;
 import com.practice.model.Conference;
-import com.practice.service.ConferenceTackService;
+import com.practice.service.TackService;
 import com.practice.util.ConferenceUtil;
 import com.practice.util.RegexUtil;
 
@@ -11,19 +11,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-public class ConferenceTaskServiceImpl implements ConferenceTackService {
-
-    @Override
-    public List<Conference> getSequentialConferences(List<String> inputLines) {
-
-        List<Conference> conferences = new ArrayList<>();
-        for (String line : inputLines) {
-            conferences.add(RegexUtil.getConference(line));
-        }
-
-        setValue(conferences);
-        return conferences;
-    }
+public class TaskServiceImpl implements TackService {
 
     @Override
     public List<List<Conference>> getSessionDays(List<Conference> sequentialConferences) {
@@ -48,59 +36,6 @@ public class ConferenceTaskServiceImpl implements ConferenceTackService {
             order += 10;
         }
         return sessions;
-    }
-
-    @Override
-    public void printSessionDay(List<List<Conference>> sessionDays) {
-
-        int trackCount = 1;
-        for (int i=0; i < sessionDays.size(); i+=2){
-            System.out.println("Track " + trackCount + ":");
-
-            printSession(i, sessionDays);
-            printSession((i + 1), sessionDays);
-            System.out.println();
-            trackCount++;
-        }
-    }
-
-    /**
-     * priority get from take times.
-     * Longer take time with bigger value of priority;
-     *
-     * @param conferences
-     * @return
-     */
-    private void setValue(List<Conference> conferences) {
-
-        for (Conference tmp : conferences) {
-            tmp.setValue((tmp.getTakeTime() / 5));
-        }
-    }
-
-    /**
-     * only two days.
-     *
-     * @param conferences
-     * @return
-     */
-    private boolean ifAllTakeTimeIsMoreTwoDays(List<Conference> conferences) {
-
-        Integer allTimeTakes = 0;
-
-        for (Conference c : conferences) {
-            allTimeTakes += c.getTakeTime();
-        }
-        return (allTimeTakes / ConferenceTakeTimesEnum.ALL_DAY_MAX.getValue()) > 2;
-    }
-
-    private void printSession(int trackCount, List<List<Conference>> sessionDays){
-
-        if (trackCount < sessionDays.size()) {
-            for (Conference s : sessionDays.get(trackCount)) {
-                System.out.println(s.printTrack());
-            }
-        }
     }
 
     private static class InputParameter {

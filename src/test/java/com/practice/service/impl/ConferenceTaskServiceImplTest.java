@@ -1,18 +1,16 @@
 package com.practice.service.impl;
 
 import com.practice.model.Conference;
-import com.practice.service.ConferenceTackService;
+import com.practice.service.TackService;
 import com.practice.util.FileUtil;
 import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.List;
 
-import static org.junit.Assert.*;
-
 public class ConferenceTaskServiceImplTest {
 
-    private ConferenceTackService service = new ConferenceTaskServiceImpl();
+    private TackService service = new TrackServiceImpl();
 
     @Test
     public void getSequentialConferences() {

@@ -24,6 +24,7 @@ public class App {
             String inputFile = App.class.getResource("/") + "Conferences.txt";
             inputFile = inputFile.replace("file:/", "");
             List<String> inputLines = FileUtil.readInputDataFile(inputFile);
+
             List<Conference> sequentialConferences = service.getSequentialConferences(inputLines);
             List<List<Conference>> sessionDays = service.getSessionDays(sequentialConferences);
             service.printSessionDay(sessionDays);

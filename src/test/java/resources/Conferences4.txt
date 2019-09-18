@@ -1,0 +1,4 @@
+Writing Fast Tests Against Enterprise Rails 30min
+Overdoing it in Python 60min
+Lua for the Masses 60min
+Luaxxx AD lightning
